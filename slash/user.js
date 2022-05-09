@@ -41,7 +41,7 @@ module.exports = {
 			**Dołączenie:** <t:${dolaczyl}:R>
 			`)
 			.setColor(interaction.guild.me.displayColor);
-		interaction.reply({ embeds: [embed], ephemeral: true });
+            interaction.reply({ embeds: [embed], ephemeral: false, allowedMentions: { repliedUser: false } });
 		}
 
 		const embed = new MessageEmbed() // Embed z bannerem
@@ -64,6 +64,6 @@ module.exports = {
 			`)
 			.setImage(user.bannerURL({ dynamic: true, format: 'png', size: 4096 }))
 			.setColor(interaction.guild.me.displayColor);
-		interaction.reply({ embeds: [embed], ephemeral: true });
+            interaction.reply({ embeds: [embed], ephemeral: false, allowedMentions: { repliedUser: false } });
 	},
 };
