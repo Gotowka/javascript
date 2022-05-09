@@ -1,13 +1,12 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
-	name: 'osoba', // Nazwa slashu
+	name: 'osoba2', // Nazwa slashu
 	description: "Poznawanie informacji o danej osobie", // Opis slashu
 	type: 1, // Type 1 = zwykły slash
 	options: [ // Opcje
 		{
 			name: 'user', // Nazwa opcji
-			value: 'osoba', // NWM XD
 			description: 'Osoba o której chcesz poznać informacje', // Opis
 			type: 6, // Type: 6 = Oznacz osobe
 			required: true,
