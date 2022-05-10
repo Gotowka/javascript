@@ -15,10 +15,14 @@ module.exports = {
 
 	run: async (interaction, client) => {
 		const osoba = interaction.options.getUser('user');
+		const guild = interaction.guild
 		const member = await client.users.cache.get(osoba.id); 
+		const memberguild = await guild.members.cache.get(osoba.id); 
 		const datadstworzenia = member?.createdAt; // Data stworzenia konta
+		const datadolaczenie = memberguild.joinedAt; // Data dołączenia na serwer
 		const ranga = interaction.member.roles.highest // Najwysza ranga
 		const stworzyl = Math.round(datadstworzenia.getTime() / 1000) // Data stworzenia (UNIX)
+		const dolaczyl = Math.round(datadolaczenie.getTime() / 1000) // Data dolaczenia (UNIX)
 		await member.fetch(); 
 		if (!member.banner) { //Sprawdzanie czy osoba ma banner
 			const embed = new MessageEmbed() // Embed bez banneru
@@ -36,6 +40,7 @@ module.exports = {
 
 			**Member:** ${member}
 			**Ranga:** ${ranga}
+			**Dołączenie:** <t:${dolaczyl}:R>
 			`)
 			.setColor(interaction.guild.me.displayColor);
             interaction.reply({ embeds: [embed], ephemeral: false, allowedMentions: { repliedUser: false } });
@@ -57,6 +62,7 @@ module.exports = {
 
 			**Member:** ${member}
 			**Ranga:** ${ranga}
+			**Dołączenie:** <t:${dolaczyl}:R>
 			`)
 			.setImage(member.bannerURL({ dynamic: true, format: 'png', size: 4096 }))
 			.setColor(interaction.guild.me.displayColor);
