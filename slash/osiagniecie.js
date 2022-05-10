@@ -1,24 +1,24 @@
-const { MessageEmbed, Client, CommandInteraction } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const fetch = require('node-fetch');
 
 module.exports = {
 
-	name: 'osiagniecia',
-	description: "Osiągnij osiągnięcie",
-	options: [
+	name: 'osiagniecia', // Nazwa slashu
+	description: "Osiągnij osiągnięcie", // Opis slashu
+	options: [ // Opcje
 		{
-			name: 'tresc',
-			description: 'Podaj jakie osiągnięcie zdobywasz',
-		    type: '3',
-            required: true
+			name: 'tresc', // Nazwa opcji
+			description: 'Podaj jakie osiągnięcie zdobywasz', // Opis opcji
+		    type: '3', // Type 3 = text
+            required: true // Wymagane 
 		},
 	],
 run: async (interaction) => {
-	const tresc = interaction.options.getString('tresc');
-    const random = Math.round(Math.random()* 100 + 1)
+	const content = interaction.options.getString('tresc'); // Pobieranie tresci
+    const random = Math.round(Math.random()* 100 + 1) // Losowy nummer od 1 do 100 żeby był inny obrazek
     const embed = new MessageEmbed()
         .setColor('RANDOM')
-        .setImage(`https://minecraftskinstealer.com/achievement/${random}/Osiagniecie+Zdobyte/${tresc}`)
+        .setImage(`https://minecraftskinstealer.com/achievement/${random}/Osiagniecie+Zdobyte/${content}`)
         interaction.reply({ embeds: [embed], allowedMentions: { repliedUser: false } });
 
     }
