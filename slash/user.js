@@ -1,7 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
-	name: 'osoba2', // Nazwa slashu
+	name: 'osoba', // Nazwa slashu
 	description: "Poznawanie informacji o danej osobie", // Opis slashu
 	type: 1, // Type 1 = zwykły slash
 	options: [ // Opcje
@@ -13,16 +13,16 @@ module.exports = {
 		},
 	],
 
-	run: async (interaction, client) => {
-		const osoba = interaction.options.getUser('user');
+	run: async (interaction) => {
+		const member = interaction.options.getUser('user');
 		const guild = interaction.guild
-		const member = await client.users.cache.get(osoba.id); 
-		const memberguild = await guild.members.cache.get(osoba.id); 
-		const datadstworzenia = member?.createdAt; // Data stworzenia konta
-		const datadolaczenie = memberguild.joinedAt; // Data dołączenia na serwer
-		const ranga = interaction.member.roles.highest // Najwysza ranga
-		const stworzyl = Math.round(datadstworzenia.getTime() / 1000) // Data stworzenia (UNIX)
-		const dolaczyl = Math.round(datadolaczenie.getTime() / 1000) // Data dolaczenia (UNIX)
+		const { user } = member;
+		const memberguild = await guild.members.cache.get(member.id); 
+		const dateCreated = member?.createdAt; // Data stworzenia konta
+		const dateJoined = memberguild.joinedAt; // Data dołączenia na serwer
+		const highestrole = interaction.member.roles.highest // Najwysza ranga
+		const usercreatedHEX = Math.round(dateCreated.getTime() / 1000) // Data stworzenia (UNIX)
+		const userjoinedserverHEX = Math.round(dateJoined.getTime() / 1000) // Data dolaczenia (UNIX)
 		await member.fetch(); 
 		if (!member.banner) { //Sprawdzanie czy osoba ma banner
 			const embed = new MessageEmbed() // Embed bez banneru
@@ -34,13 +34,13 @@ module.exports = {
 			**Id:** \`${member.id}\`
 			**Avatar:** [Kliknij](${member.displayAvatarURL({ dynamic: true })}})
 			**Badges:** ${member?.flags?.toArray() ?? (await member.user?.fetchFlags())?.toArray()}
-			**Stworzenie:** <t:${stworzyl}:R>
+			**Stworzenie:** <t:${usercreatedHEX}:R>
 			
 			**Serwerowy:**
 
 			**Member:** ${member}
-			**Ranga:** ${ranga}
-			**Dołączenie:** <t:${dolaczyl}:R>
+			**Ranga:** ${highestrole}
+			**Dołączenie:** <t:${userjoinedserverHEX}:R>
 			`)
 			.setColor(interaction.guild.me.displayColor);
             interaction.reply({ embeds: [embed], ephemeral: false, allowedMentions: { repliedUser: false } });
@@ -56,13 +56,13 @@ module.exports = {
 			**Avatar:** [Kliknij](${member.displayAvatarURL({ dynamic: true })}})
 			**Banner:** [Kliknij](${member.bannerURL({ dynamic: true, format: 'png', size: 4096 })})
 			**Badges:** ${member?.flags?.toArray() ?? (await member.user?.fetchFlags())?.toArray()}
-			**Stworzenie:** <t:${stworzyl}:R>
+			**Stworzenie:** <t:${usercreatedHEX}:R>
 			
 			**Serwerowy:**
 
 			**Member:** ${member}
-			**Ranga:** ${ranga}
-			**Dołączenie:** <t:${dolaczyl}:R>
+			**Ranga:** ${highestrole}
+			**Dołączenie:** <t:${userjoinedserverHEX}:R>
 			`)
 			.setImage(member.bannerURL({ dynamic: true, format: 'png', size: 4096 }))
 			.setColor(interaction.guild.me.displayColor);
